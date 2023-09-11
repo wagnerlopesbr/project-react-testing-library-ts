@@ -11,19 +11,28 @@ describe('Testando o arquivo Pokedex.tsx', () => {
 
   test('Teste se é exibido o próximo Pokémon da lista quando o botão Próximo Pokémon é clicado', async () => {
     const { user } = renderWithRouter(<App />, { route: '/' });
-    let nextButtonClickCount = 0;
     const pokemon = screen.getByTestId('pokemon-name');
     const nextPokemonButton = screen.getByRole('button', { name: /Próximo pokémon/i });
+
     expect(pokemon).toHaveTextContent(pokemonList[0].name);
     await user.click(nextPokemonButton);
-    nextButtonClickCount++;
     expect(pokemon).toHaveTextContent(pokemonList[1].name);
     await user.click(nextPokemonButton);
-    nextButtonClickCount++;
     expect(pokemon).toHaveTextContent(pokemonList[2].name);
-    if ((nextButtonClickCount + 1) === pokemonList.length) {
-      expect(pokemon).toHaveTextContent(pokemonList[0].name);
-    }
+    await user.click(nextPokemonButton);
+    expect(pokemon).toHaveTextContent(pokemonList[3].name);
+    await user.click(nextPokemonButton);
+    expect(pokemon).toHaveTextContent(pokemonList[4].name);
+    await user.click(nextPokemonButton);
+    expect(pokemon).toHaveTextContent(pokemonList[5].name);
+    await user.click(nextPokemonButton);
+    expect(pokemon).toHaveTextContent(pokemonList[6].name);
+    await user.click(nextPokemonButton);
+    expect(pokemon).toHaveTextContent(pokemonList[7].name);
+    await user.click(nextPokemonButton);
+    expect(pokemon).toHaveTextContent(pokemonList[8].name);
+    await user.click(nextPokemonButton);
+    expect(pokemon).toHaveTextContent(pokemonList[0].name);
   });
 
   test('Teste se é mostrado apenas um Pokémon por vez', () => {
