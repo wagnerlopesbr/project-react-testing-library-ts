@@ -35,25 +35,27 @@ describe('Testando o arquivo Pokedex.tsx', () => {
   test('Teste se a Pokédex tem os botões de filtro', () => {
     renderWithRouter(<App />, { route: '/' });
     const buttons = screen.getAllByTestId('pokemon-type-button');
-    buttons.forEach((button, pokeType) => {
-      const typesList = pokemonList.map((pokemon) => pokemon.type);
-      typesList.forEach((type) => {
-        if (!type) {
-          screen.getByText(type);
-        }
-      });
-      button.textContent = `${typesList[pokeType]}`;
-      expect(button).toHaveTextContent(typesList[pokeType]);
-    });
 
-    // expect(buttons.length).toBe(7);
-    // expect(buttons[0]).toHaveTextContent(/Electric/i);
-    // expect(buttons[1]).toHaveTextContent(/Fire/i);
-    // expect(buttons[2]).toHaveTextContent(/Bug/i);
-    // expect(buttons[3]).toHaveTextContent(/Poison/i);
-    // expect(buttons[4]).toHaveTextContent(/Psychic/i);
-    // expect(buttons[5]).toHaveTextContent(/Normal/i);
-    // expect(buttons[6]).toHaveTextContent(/Dragon/i);
+    // funcionou no teste interno mas no evaluator não, então mantive o outro mais específico
+    // buttons.forEach((button, pokeType) => {
+    //   const typesList = pokemonList.map((pokemon) => pokemon.type);
+    //   typesList.forEach((type) => {
+    //     if (!type) {
+    //       screen.getByText(type);
+    //     }
+    //   });
+    //   button.textContent = `${typesList[pokeType]}`;
+    //   expect(button).toHaveTextContent(typesList[pokeType]);
+    // });
+
+    expect(buttons.length).toBe(7);
+    expect(buttons[0]).toHaveTextContent(/Electric/i);
+    expect(buttons[1]).toHaveTextContent(/Fire/i);
+    expect(buttons[2]).toHaveTextContent(/Bug/i);
+    expect(buttons[3]).toHaveTextContent(/Poison/i);
+    expect(buttons[4]).toHaveTextContent(/Psychic/i);
+    expect(buttons[5]).toHaveTextContent(/Normal/i);
+    expect(buttons[6]).toHaveTextContent(/Dragon/i);
   });
 
   test('Teste se a Pokédex contém um botão para resetar o filtro', () => {
