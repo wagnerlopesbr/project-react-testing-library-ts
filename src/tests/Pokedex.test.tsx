@@ -21,7 +21,7 @@ describe('Testando o arquivo Pokedex.tsx', () => {
     await user.click(nextPokemonButton);
     nextButtonClickCount++;
     expect(pokemon).toHaveTextContent(pokemonList[2].name);
-    if (nextButtonClickCount === (pokemonList.length - 1)) {
+    if ((nextButtonClickCount + 1) === pokemonList.length) {
       expect(pokemon).toHaveTextContent(pokemonList[0].name);
     }
   });
