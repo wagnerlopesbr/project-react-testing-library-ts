@@ -44,29 +44,35 @@ describe('Testando o arquivo Pokedex.tsx', () => {
   test('Teste se a Pokédex tem os botões de filtro', () => {
     renderWithRouter(<App />, { route: '/' });
     const buttons = screen.getAllByTestId('pokemon-type-button');
-    const allButton = screen.getByRole('button', { name: /All/i });
-
-    buttons.forEach((button, pokeType) => {
-      const typesList = pokemonList.map((pokemon) => pokemon.type);
-      typesList.forEach((type) => {
-        if (!type) {
-          screen.getByText(type);
-        }
-      });
-      button.textContent = `${typesList[pokeType]}`;
-      expect(button).toHaveTextContent(typesList[pokeType]);
+    const typeList = [
+      'Electric', 'Fire', 'Bug',
+      'Poison', 'Psychic', 'Normal', 'Dragon',
+    ];
+    buttons.forEach((button, index) => {
+      expect(button).toHaveTextContent(typeList[index]);
     });
+  });
 
+  test('Após a seleção de um botão de tipo, a Pokédex deve circular somente pelos Pokémon daquele tipo', async () => {
+    const { user } = renderWithRouter(<App />, { route: '/' });
+    const buttons = screen.getAllByTestId('pokemon-type-button');
+    const allButton = screen.getByRole('button', { name: 'All' });
+    const fireButton = buttons[0];
+    const bugButton = buttons[1];
     expect(allButton).toBeInTheDocument();
-
-    // expect(buttons.length).toBe(7);
-    // expect(buttons[0]).toHaveTextContent(/Electric/i);
-    // expect(buttons[1]).toHaveTextContent(/Fire/i);
-    // expect(buttons[2]).toHaveTextContent(/Bug/i);
-    // expect(buttons[3]).toHaveTextContent(/Poison/i);
-    // expect(buttons[4]).toHaveTextContent(/Psychic/i);
-    // expect(buttons[5]).toHaveTextContent(/Normal/i);
-    // expect(buttons[6]).toHaveTextContent(/Dragon/i);
+    await user.click(fireButton);
+    const pokemon = screen.getByTestId('pokemon-name');
+    const nextButton = screen.getByRole('button', { name: 'Próximo Pokémon' });
+    expect(pokemon).toHaveTextContent('Charmander');
+    expect(allButton).toBeInTheDocument();
+    await user.click(nextButton);
+    expect(pokemon).toHaveTextContent('Rapidash');
+    expect(allButton).toBeInTheDocument();
+    await user.click(bugButton);
+    expect(pokemon).toHaveTextContent('Caterpie');
+    expect(allButton).toBeInTheDocument();
+    await user.click(allButton);
+    expect(pokemon).toHaveTextContent('Pikachu');
   });
 
   test('Teste se a Pokédex contém um botão para resetar o filtro', () => {
