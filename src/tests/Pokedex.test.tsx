@@ -6,7 +6,7 @@ import App from '../App';
 describe('Testando o arquivo Pokedex.tsx', () => {
   test('Teste se a página contém um heading h2 com o texto Encountered Pokémon', () => {
     renderWithRouter(<App />, { route: '/' });
-    expect(screen.getByText(/Encountered Pokémon/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Encountered Pokémon/i })).toBeInTheDocument();
   });
 
   test('Teste se é exibido o próximo Pokémon da lista quando o botão Próximo Pokémon é clicado', async () => {
@@ -21,7 +21,7 @@ describe('Testando o arquivo Pokedex.tsx', () => {
     await user.click(nextPokemonButton);
     nextButtonClickCount++;
     expect(pokemon).toHaveTextContent(pokemonList[2].name);
-    if (nextButtonClickCount === pokemonList.length) {
+    if (nextButtonClickCount === (pokemonList.length - 1)) {
       expect(pokemon).toHaveTextContent(pokemonList[0].name);
     }
   });
